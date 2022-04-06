@@ -15,7 +15,7 @@ mongoose.connect(
 );
 
 app.use(express.json());
-
+app.get("/", (req, res) => res.status(200).send("hello world"));
 app.use("/api/auth", authRoute);
 app.use("/api/uploads", audioRoute);
 app.use("/api/uploads", videoRoute);
