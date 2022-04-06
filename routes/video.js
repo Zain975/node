@@ -39,7 +39,7 @@ const upload = multer({
 router.post("/video", upload.single("video"), async (req, res, err) => {
   try {
     const video = await Video.create({
-      title: req.file.originalname,
+      title: req.body.title,
       videoUrl: req.file.location,
     });
 
