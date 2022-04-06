@@ -9,11 +9,12 @@ const videoRoute = require("./routes/video");
 
 dotenv.config();
 const port = process.env.PORT || 8000;
-const uri = process.env.MONGO_URL;
-mongoose.connect(
-  "mongodb+srv://admin:1133557799@cluster0.59mxf.mongodb.net/myFirstDatabase?retryWrites=true&w=majority" ||
-    uri
-);
+const connection_url =
+  "mongodb+srv://admin:1133557799@cluster0.59mxf.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
+mongoose.connect(connection_url || process.env.MONGO_URL, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
 
 app.use(express.json());
 app.use((req, res, next) => {
