@@ -44,11 +44,12 @@ router.post("/audio", upload.single("audio"), async (req, res, err) => {
     });
 
     return res.status(200).json({
+      status: true,
       data: req.file,
       msg: "Successfully uploaded audio file",
     });
   } catch (err) {
-    return res.status(500).json(err);
+    return res.status(500).json({ status: false, message: err });
   }
 });
 
@@ -57,9 +58,9 @@ router.post("/audio", upload.single("audio"), async (req, res, err) => {
 router.get("/audiolist", async (req, res) => {
   try {
     const audio = await Audio.find();
-    res.status(200).json(audio.reverse());
+    res.status(200).json({ status: true, data: audio.reverse() });
   } catch (err) {
-    res.status(500).json(err);
+    res.status(500).json({ status: false, message: err });
   }
 });
 
