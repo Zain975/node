@@ -9,7 +9,10 @@ const videoRoute = require("./routes/video");
 
 dotenv.config();
 
-mongoose.connect(process.env.MONGO_URL);
+mongoose.connect(
+  "mongodb://admin:1133557799@cluster0.59mxf.mongodb.net/FirstDatabase?retryWrites=true&w=majority" ||
+    process.env.MONGO_URL
+);
 
 app.use(express.json());
 
