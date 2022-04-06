@@ -8,7 +8,7 @@ const audioRoute = require("./routes/audio");
 const videoRoute = require("./routes/video");
 
 dotenv.config();
-
+const port = process.env.PORT || 8000;
 mongoose.connect(
   "mongodb://admin:1133557799@cluster0.59mxf.mongodb.net/FirstDatabase?retryWrites=true&w=majority" ||
     process.env.MONGO_URL
@@ -20,6 +20,6 @@ app.use("/api/auth", authRoute);
 app.use("/api/uploads", audioRoute);
 app.use("/api/uploads", videoRoute);
 
-app.listen(8000, () => {
+app.listen(port, () => {
   console.log("server is running");
 });
