@@ -6,6 +6,8 @@ const dotenv = require("dotenv");
 const authRoute = require("./routes/auth");
 const audioRoute = require("./routes/audio");
 const videoRoute = require("./routes/video");
+const weatherRoute = require("./routes/weather");
+const timezoneRoute = require("./routes/timezone");
 
 dotenv.config();
 const port = process.env.PORT || 8000;
@@ -27,6 +29,8 @@ app.get("/", (req, res) => res.status(200).send("hello world"));
 app.use("/api/auth", authRoute);
 app.use("/api/uploads", audioRoute);
 app.use("/api/uploads", videoRoute);
+app.use("/api/weather", weatherRoute);
+app.use("/api/timezone", timezoneRoute);
 
 app.listen(port, () => {
   console.log("server is running");

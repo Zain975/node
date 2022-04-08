@@ -64,21 +64,27 @@ router.get("/videolist", async (req, res) => {
   }
 });
 
-// //CREATE
+//Get Single Video File
 
-// router.post("/", verify, async (req, res) => {
-//   if (req.user.isAdmin) {
-//     const newVideo = new Video(req.body);
-//     try {
-//       const savedVideo = await newVideo.save();
-//       res.status(201).json(savedVideo);
-//     } catch (err) {
-//       res.status(500).json(err);
-//     }
-//   } else {
-//     res.status(403).json("You are not allowed!");
-//   }
-// });
+router.get("/findVideo/:id", async (req, res) => {
+  try {
+    const video = await Video.findById(req.params.id);
+    res.status(200).json({ status: true, data: video });
+  } catch (err) {
+    res.status(500).json({ status: false, message: err });
+  }
+});
+
+// Search Video
+
+router.get("/searchVideo", (req, res, next) => {
+  const searchField = req.query.title;
+  Video.find({ title: { $regex: searchField, $options: "$i" } }).then(
+    (data) => {
+      res.send(data);
+    }
+  );
+});
 
 // //UPDATE
 
@@ -93,70 +99,6 @@ router.get("/videolist", async (req, res) => {
 //         { new: true }
 //       );
 //       res.status(200).json(updatedVideo);
-//     } catch (err) {
-//       res.status(500).json(err);
-//     }
-//   } else {
-//     res.status(403).json("You are not allowed!");
-//   }
-// });
-
-// //DELETE
-
-// router.delete("/:id", verify, async (req, res) => {
-//   if (req.user.isAdmin) {
-//     try {
-//       await Video.findByIdAndDelete(req.params.id);
-//       res.status(200).json("The movie has been deleted...");
-//     } catch (err) {
-//       res.status(500).json(err);
-//     }
-//   } else {
-//     res.status(403).json("You are not allowed!");
-//   }
-// });
-
-// //GET
-
-// router.get("/find/:id", verify, async (req, res) => {
-//   try {
-//     const video = await Video.findById(req.params.id);
-//     res.status(200).json(video);
-//   } catch (err) {
-//     res.status(500).json(err);
-//   }
-// });
-
-// // //GET RANDOM
-
-// // router.get("/random", verify, async (req, res) => {
-// //   const type = req.query.type;
-// //   let video;
-// //   try {
-// //     if (type === "series") {
-// //       video = await Video.aggregate([
-// //         { $match: { isSeries: true } },
-// //         { $sample: { size: 1 } },
-// //       ]);
-// //     } else {
-// //       video = await Video.aggregate([
-// //         { $match: { isSeries: false } },
-// //         { $sample: { size: 1 } },
-// //       ]);
-// //     }
-// //     res.status(200).json(video);
-// //   } catch (err) {
-// //     res.status(500).json(err);
-// //   }
-// // });
-
-// //GET ALL
-
-// router.get("/", verify, async (req, res) => {
-//   if (req.user.isAdmin) {
-//     try {
-//       const videos = await Video.find();
-//       res.status(200).json(videos.reverse());
 //     } catch (err) {
 //       res.status(500).json(err);
 //     }

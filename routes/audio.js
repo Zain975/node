@@ -24,7 +24,8 @@ const upload = multer({
     },
     key: function (req, file, cb) {
       // cb(null, `audio${Date.now()}.mp3`);
-      cb(null, `${new Date().getTime()}_${file.originalname}`);
+      // cb(null, `${new Date().getTime()}_${file.originalname}`);
+      cb(null, `${file.originalname}`);
     },
     // fileFilter(req, file, cb) {
     //   if (!file.originalname.match(/\.(flac|m4a|wav|wma|aac|mp3)$/)) {
@@ -34,6 +35,21 @@ const upload = multer({
     // },
   }),
 });
+
+// s3.deleteObject(
+//   {
+//     Bucket: "mp3-file-upload",
+//     Key: "1649392564041_Heer Raanjhana - Bachchhan Paandey 128 Kbps.mp3",
+//   },
+//   (err, data) => {
+//     console.error(err);
+//     console.log(data);
+//   }
+// );
+// s3.deleteObject({
+//   bucket: "mp3-file-upload",
+//   // key: req.body.key,
+// });
 
 //Uploading single File to aws s3 bucket
 router.post("/audio", upload.single("audio"), async (req, res, err) => {
@@ -64,10 +80,33 @@ router.get("/audiolist", async (req, res) => {
   }
 });
 
-// DELETE
-router.delete("/:id", async (req, res) => {
+//Get Single Audio
+
+router.get("/findAudio/:id", async (req, res) => {
   try {
-    await Video.findByIdAndDelete(req.params.id);
+    const audio = await Audio.findById(req.params.id);
+    res.status(200).json({ status: true, data: audio });
+  } catch (err) {
+    res.status(500).json({ status: false, message: err });
+  }
+});
+
+// Search Audio
+
+router.get("/searchAudio", (req, res, next) => {
+  const searchField = req.query.title;
+  Audio.find({ title: { $regex: searchField, $options: "$i" } }).then(
+    (data) => {
+      res.send(data);
+    }
+  );
+});
+
+// DELETE
+router.delete("/deleteAudio/:id", async (req, res) => {
+  try {
+    await Audio.findByIdAndDelete(req.params.id);
+
     res.status(200).json("The audio has been deleted...");
   } catch (err) {
     res.status(500).json(err);
