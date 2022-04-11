@@ -1,9 +1,24 @@
 const router = require("express").Router();
 const dotenv = require("dotenv");
+const Weather = require("../models/Weather");
 const fetch = require("node-fetch");
 dotenv.config();
 
-// const apiKey = `${process.env.API_KEY}`;
+router.post("/setLat&Lon", async (req, res, err) => {
+  try {
+    const weather = await Weather.create({
+      lat: req.body.lat,
+      lon: req.body.lon,
+    });
+    return res.status(200).json({
+      status: true,
+      data: weather,
+      msg: "Successfully saved",
+    });
+  } catch (err) {
+    return res.status(500).json({ status: false, message: err });
+  }
+});
 
 router.get("/lat&lon", async (req, res) => {
   if (!req.query.lat) {

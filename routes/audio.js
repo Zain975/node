@@ -39,7 +39,7 @@ const upload = multer({
 // s3.deleteObject(
 //   {
 //     Bucket: "mp3-file-upload",
-//     Key: "1649392564041_Heer Raanjhana - Bachchhan Paandey 128 Kbps.mp3",
+//     Key: "1649057723171_Heer Raanjhana - Bachchhan Paandey 128 Kbps.mp3",
 //   },
 //   (err, data) => {
 //     console.error(err);
@@ -50,6 +50,17 @@ const upload = multer({
 //   bucket: "mp3-file-upload",
 //   // key: req.body.key,
 // });
+
+// DELETE
+router.delete("/deleteAudio/:id", async (req, res) => {
+  try {
+    await Audio.findByIdAndDelete(req.params.id);
+
+    res.status(200).json("The audio has been deleted...");
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
 
 //Uploading single File to aws s3 bucket
 router.post("/audio", upload.single("audio"), async (req, res, err) => {
@@ -100,17 +111,6 @@ router.get("/searchAudio", (req, res, next) => {
       res.send(data);
     }
   );
-});
-
-// DELETE
-router.delete("/deleteAudio/:id", async (req, res) => {
-  try {
-    await Audio.findByIdAndDelete(req.params.id);
-
-    res.status(200).json("The audio has been deleted...");
-  } catch (err) {
-    res.status(500).json(err);
-  }
 });
 
 module.exports = router;
