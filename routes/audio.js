@@ -51,17 +51,6 @@ const upload = multer({
 //   // key: req.body.key,
 // });
 
-// DELETE
-router.delete("/deleteAudio/:id", async (req, res) => {
-  try {
-    await Audio.findByIdAndDelete(req.params.id);
-
-    res.status(200).json("The audio has been deleted...");
-  } catch (err) {
-    res.status(200).json(err);
-  }
-});
-
 //Uploading single File to aws s3 bucket
 router.post("/audio", upload.single("audio"), async (req, res, err) => {
   try {
@@ -122,6 +111,33 @@ router.get("/searchAudio", (req, res, next) => {
         .json({ status: true, message: "Search item find", data: data });
     }
   );
+});
+
+// DELETE Audio
+
+router.delete("/deleteAudio/:id", async (req, res) => {
+  try {
+    await Audio.findByIdAndDelete(req.params.id);
+
+    res
+      .status(200)
+      .json({ status: true, message: "The audio has been deleted..." });
+  } catch (err) {
+    res.status(200).json(err);
+  }
+});
+
+// Update Audio
+
+router.put("/updateAudio/:id", async (req, res) => {
+  const audio = await Audio.findByIdAndUpdate(req.params.id);
+  if (audio) {
+    audio.title = req.body.title;
+    const updatedAudio = await audio.save();
+    res
+      .status(200)
+      .json({ status: true, message: "Succesfully updated!", data: audio });
+  }
 });
 
 module.exports = router;

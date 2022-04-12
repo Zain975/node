@@ -98,6 +98,33 @@ router.get("/searchVideo", (req, res, next) => {
   );
 });
 
+// DELETE Video
+
+router.delete("/deleteVideo/:id", async (req, res) => {
+  try {
+    await Video.findByIdAndDelete(req.params.id);
+
+    res
+      .status(200)
+      .json({ status: true, message: "The video has been deleted..." });
+  } catch (err) {
+    res.status(200).json(err);
+  }
+});
+
+// Update Video
+
+router.put("/updateVideo/:id", async (req, res) => {
+  const video = await Video.findByIdAndUpdate(req.params.id);
+  if (video) {
+    video.title = req.body.title;
+    const updatedVideo = await video.save();
+    res
+      .status(200)
+      .json({ status: true, message: "Succesfully updated!", data: video });
+  }
+});
+
 // //UPDATE
 
 // router.put("/:id", verify, async (req, res) => {
