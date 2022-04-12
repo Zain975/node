@@ -9,7 +9,7 @@ router.get("/timezonesList", function (req, res) {
   });
 });
 
-// post the timezone
+// post the timezone in DB
 router.post("/timezone", async (req, res, err) => {
   try {
     const timezone = await Timezone.create({
@@ -25,13 +25,33 @@ router.post("/timezone", async (req, res, err) => {
   }
 });
 
+// Update Timezone
+
+router.put("/updateTimezone", async (req, res) => {
+  const timezoneId = "6254f31e9e582738652ae484";
+  const timezone = await Timezone.findByIdAndUpdate(timezoneId);
+  if (timezone) {
+    timezone.timezone = req.body.timezone;
+    const updatedTimezone = await timezone.save();
+    res
+      .status(200)
+      .json({ status: true, message: "Successfully updated!", data: timezone });
+  }
+});
+
 // set Timezone
 
-router.get("/time", function (req, res) {
-  const nDate = new Date().toLocaleString("en-US", {
-    timeZone: req.body.timeZone,
-  });
-  res.status(200).json({ status: true, message: "Suucessful!", data: nDate });
+router.get("/time", async (req, res) => {
+  const timezoneId = "6254f31e9e582738652ae484";
+  const timezone = await Timezone.findById(timezoneId);
+  if (!timezone.timezone) {
+    res.status(404).json("Timezone is missing");
+  } else {
+    const nDate = new Date().toLocaleString("en-US", {
+      timezone: timezone.timezone,
+    });
+    res.status(200).json({ status: true, message: "Suucessful!", data: nDate });
+  }
 });
 
 module.exports = router;
