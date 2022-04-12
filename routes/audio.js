@@ -76,7 +76,7 @@ router.post("/audio", upload.single("audio"), async (req, res, err) => {
       data: {
         id: audio._id,
         title: audio.title,
-        location: audio.location,
+        location: req.file.location,
       },
       // data: req.file,
     });

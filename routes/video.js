@@ -50,7 +50,7 @@ router.post("/video", upload.single("video"), async (req, res, err) => {
       data: {
         id: video._id,
         title: video.title,
-        lastName: video.location,
+        location: req.file.location,
       },
     });
   } catch (err) {
