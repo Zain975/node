@@ -58,7 +58,7 @@ router.delete("/deleteAudio/:id", async (req, res) => {
 
     res.status(200).json("The audio has been deleted...");
   } catch (err) {
-    res.status(500).json(err);
+    res.status(200).json(err);
   }
 });
 
@@ -81,7 +81,7 @@ router.post("/audio", upload.single("audio"), async (req, res, err) => {
       // data: req.file,
     });
   } catch (err) {
-    return res.status(500).json({ status: false, message: err });
+    return res.status(200).json({ status: false, message: err });
   }
 });
 
@@ -96,7 +96,7 @@ router.get("/audiolist", async (req, res) => {
       data: audio.reverse(),
     });
   } catch (err) {
-    res.status(500).json({ status: false, message: err });
+    res.status(200).json({ status: false, message: err });
   }
 });
 
@@ -107,7 +107,7 @@ router.get("/findAudio/:id", async (req, res) => {
     const audio = await Audio.findById(req.params.id);
     res.status(200).json({ status: true, messsage: "Success", data: audio });
   } catch (err) {
-    res.status(500).json({ status: false, message: err });
+    res.status(200).json({ status: false, message: err });
   }
 });
 

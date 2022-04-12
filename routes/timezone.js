@@ -7,13 +7,11 @@ router.get("/timezonesList", async (req, res) => {
   const timezoneId = "6254f31e9e582738652ae484";
   const timezone = await Timezone.findById(timezoneId);
   fs.readFile("timezones.json", "utf-8", function (err, data) {
-    res
-      .status(200)
-      .json({
-        status: true,
-        lastSaved: timezone.timezone,
-        list: JSON.parse(data),
-      });
+    res.status(200).json({
+      status: true,
+      timezone: timezone.timezone,
+      list: JSON.parse(data),
+    });
   });
 });
 
@@ -29,7 +27,7 @@ router.post("/timezone", async (req, res, err) => {
       data: timezone.timezone,
     });
   } catch (err) {
-    return res.status(500).json({ status: false, message: err });
+    return res.status(200).json({ status: false, message: err });
   }
 });
 

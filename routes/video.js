@@ -54,7 +54,7 @@ router.post("/video", upload.single("video"), async (req, res, err) => {
       },
     });
   } catch (err) {
-    return res.status(500).json({ status: false, message: err });
+    return res.status(200).json({ status: false, message: err });
   }
 });
 
@@ -69,7 +69,7 @@ router.get("/videolist", async (req, res) => {
       data: video.reverse(),
     });
   } catch (err) {
-    res.status(500).json({ status: false, message: err });
+    res.status(200).json({ status: false, message: err });
   }
 });
 
@@ -80,7 +80,7 @@ router.get("/findVideo/:id", async (req, res) => {
     const video = await Video.findById(req.params.id);
     res.status(200).json({ status: true, message: "Success", data: video });
   } catch (err) {
-    res.status(500).json({ status: false, message: err });
+    res.status(200).json({ status: false, message: err });
   }
 });
 

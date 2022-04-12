@@ -17,7 +17,7 @@ router.post("/setLat&Lon", async (req, res, err) => {
       msg: "Successfully saved",
     });
   } catch (err) {
-    return res.status(500).json({ status: false, message: err });
+    return res.status(200).json({ status: false, message: err });
   }
 });
 
