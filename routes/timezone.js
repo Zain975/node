@@ -10,7 +10,7 @@ router.get("/timezonesList", async (req, res) => {
     res.status(200).json({
       status: true,
       timezone: timezone.timezone,
-      list: JSON.parse(data.utc),
+      list: JSON.parse(data),
     });
   });
 });
