@@ -61,13 +61,12 @@ router.post("/audio", upload.single("audio"), async (req, res, err) => {
 
     return res.status(200).json({
       status: true,
-      message: "Successfully uploaded audio file",
+      msg: "Successfully uploaded audio file",
       data: {
         id: audio._id,
         title: audio.title,
         location: req.file.location,
       },
-      // data: req.file,
     });
   } catch (err) {
     return res.status(200).json({ status: false, message: err });
