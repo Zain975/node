@@ -72,8 +72,13 @@ router.post("/audio", upload.single("audio"), async (req, res, err) => {
 
     return res.status(200).json({
       status: true,
-      data: req.file,
-      msg: "Successfully uploaded audio file",
+      message: "Successfully uploaded audio file",
+      data: {
+        id: audio._id,
+        title: audio.title,
+        lastName: audio.location,
+      },
+      // data: req.file,
     });
   } catch (err) {
     return res.status(500).json({ status: false, message: err });
@@ -85,7 +90,11 @@ router.post("/audio", upload.single("audio"), async (req, res, err) => {
 router.get("/audiolist", async (req, res) => {
   try {
     const audio = await Audio.find();
-    res.status(200).json({ status: true, data: audio.reverse() });
+    res.status(200).json({
+      status: true,
+      message: "List generated successfully!",
+      data: audio.reverse(),
+    });
   } catch (err) {
     res.status(500).json({ status: false, message: err });
   }
@@ -96,7 +105,7 @@ router.get("/audiolist", async (req, res) => {
 router.get("/findAudio/:id", async (req, res) => {
   try {
     const audio = await Audio.findById(req.params.id);
-    res.status(200).json({ status: true, data: audio });
+    res.status(200).json({ status: true, messsage: "Success", data: audio });
   } catch (err) {
     res.status(500).json({ status: false, message: err });
   }
@@ -108,7 +117,9 @@ router.get("/searchAudio", (req, res, next) => {
   const searchField = req.query.title;
   Audio.find({ title: { $regex: searchField, $options: "$i" } }).then(
     (data) => {
-      res.send(data);
+      res
+        .status(200)
+        .json({ status: true, message: "Search item find", data: data });
     }
   );
 });

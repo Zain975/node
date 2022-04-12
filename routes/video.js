@@ -45,8 +45,13 @@ router.post("/video", upload.single("video"), async (req, res, err) => {
 
     return res.status(200).json({
       status: true,
-      data: req.file,
+      // data: req.file,
       msg: "Successfully uploaded video file",
+      data: {
+        id: video._id,
+        title: video.title,
+        lastName: video.location,
+      },
     });
   } catch (err) {
     return res.status(500).json({ status: false, message: err });
@@ -58,7 +63,11 @@ router.post("/video", upload.single("video"), async (req, res, err) => {
 router.get("/videolist", async (req, res) => {
   try {
     const video = await Video.find();
-    res.status(200).json({ status: true, data: video.reverse() });
+    res.status(200).json({
+      status: true,
+      message: "List generated successfully!",
+      data: video.reverse(),
+    });
   } catch (err) {
     res.status(500).json({ status: false, message: err });
   }
@@ -69,7 +78,7 @@ router.get("/videolist", async (req, res) => {
 router.get("/findVideo/:id", async (req, res) => {
   try {
     const video = await Video.findById(req.params.id);
-    res.status(200).json({ status: true, data: video });
+    res.status(200).json({ status: true, message: "Success", data: video });
   } catch (err) {
     res.status(500).json({ status: false, message: err });
   }
@@ -81,7 +90,10 @@ router.get("/searchVideo", (req, res, next) => {
   const searchField = req.query.title;
   Video.find({ title: { $regex: searchField, $options: "$i" } }).then(
     (data) => {
-      res.send(data);
+      // res.send(data);
+      res
+        .status(200)
+        .json({ status: true, message: "Search item find", data: data });
     }
   );
 });

@@ -41,7 +41,7 @@ router.get("/time", function (req, res) {
   const nDate = new Date().toLocaleString("en-US", {
     timeZone: req.body.timeZone,
   });
-  res.status(200).json(nDate);
+  res.status(200).json({ status: true, message: "Suucessful!", data: nDate });
 });
 
 module.exports = router;

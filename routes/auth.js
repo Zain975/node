@@ -26,13 +26,18 @@ router.post("/register", async (req, res) => {
 router.post("/login", async (req, res) => {
   try {
     const user = await User.findOne({ email: req.body.email });
-    !user && res.status(401).json("Wrong password or email!");
+    !user &&
+      res
+        .status(401)
+        .json({ status: true, message: "Wrong password or email!" });
 
     const bytes = CryptoJS.AES.decrypt(user.password, process.env.SECRET_KEY);
     const originalPassword = bytes.toString(CryptoJS.enc.Utf8);
 
     originalPassword !== req.body.password &&
-      res.status(401).json("Wrong password or email!");
+      res
+        .status(401)
+        .json({ status: true, message: "Wrong password or email!" });
 
     const accessToken = jwt.sign(
       { id: user._id, isAdmin: user.isAdmin },
@@ -41,19 +46,17 @@ router.post("/login", async (req, res) => {
     );
 
     const { password, ...info } = user._doc;
-    res
-      .status(200)
-      .json({
-        status: true,
-        msg: "Successfully login!",
-        data: {
-          id: user._id,
-          firstName: user.firstName,
-          lastName: user.lastName,
-          email: user.email,
-          accessToken,
-        },
-      });
+    res.status(200).json({
+      status: true,
+      message: "Successfully login!",
+      data: {
+        id: user._id,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+        accessToken,
+      },
+    });
   } catch (err) {
     res.status(500).json({ status: false, message: err });
   }
