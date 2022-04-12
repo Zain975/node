@@ -3,9 +3,17 @@ const router = require("express").Router();
 const Timezone = require("../models/Timezone");
 
 // Timezones List
-router.get("/timezonesList", function (req, res) {
+router.get("/timezonesList", async (req, res) => {
+  const timezoneId = "6254f31e9e582738652ae484";
+  const timezone = await Timezone.findById(timezoneId);
   fs.readFile("timezones.json", "utf-8", function (err, data) {
-    res.status(200).json({ status: true, list: JSON.parse(data) });
+    res
+      .status(200)
+      .json({
+        status: true,
+        lastSaved: timezone.timezone,
+        list: JSON.parse(data),
+      });
   });
 });
 
@@ -39,7 +47,7 @@ router.put("/updateTimezone", async (req, res) => {
   }
 });
 
-// set Timezone
+// get Timezone
 
 router.get("/time", async (req, res) => {
   const timezoneId = "6254f31e9e582738652ae484";
