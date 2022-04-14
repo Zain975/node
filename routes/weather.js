@@ -54,7 +54,9 @@ router.get("/lat&lon", async (req, res) => {
     );
 
     const data = await response.json();
-    res.status(200).json({ status: true, message: "Succesfull", data: data });
+    res
+      .status(200)
+      .json({ status: true, message: "Succesfull", data: data.main.temp });
   }
 
   // if (!req.query.lat) {
