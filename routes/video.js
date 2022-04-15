@@ -63,11 +63,11 @@ router.post("/video", upload.single("video"), async (req, res, err) => {
 router.get("/videolist", async (req, res) => {
   try {
     const video = await Video.find();
-    res.status(200).json(
-      // status: true,
-      // message: "List generated successfully!",
-      video.reverse()
-    );
+    res.status(200).json({
+      status: true,
+      message: "List generated successfully!",
+      data: video.reverse(),
+    });
   } catch (err) {
     res.status(200).json({ status: false, message: err });
   }
