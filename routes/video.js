@@ -73,6 +73,17 @@ router.get("/videolist", async (req, res) => {
   }
 });
 
+// //get all video file
+
+router.get("/videolistt", async (req, res) => {
+  try {
+    const video = await Video.find();
+    res.status(200).json(video.reverse());
+  } catch (err) {
+    res.status(200).json({ status: false, message: err });
+  }
+});
+
 //Get Single Video File
 
 router.get("/findVideo/:id", async (req, res) => {
