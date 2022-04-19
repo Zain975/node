@@ -88,6 +88,17 @@ router.get("/audiolist", async (req, res) => {
   }
 });
 
+//get all audio file for web
+
+router.get("/audiolistt", async (req, res) => {
+  try {
+    const audio = await Audio.find();
+    res.status(200).json(audio.reverse());
+  } catch (err) {
+    res.status(200).json({ status: false, message: err });
+  }
+});
+
 //Get Single Audio
 
 router.get("/findAudio/:id", async (req, res) => {
