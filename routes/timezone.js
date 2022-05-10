@@ -56,7 +56,12 @@ router.get("/time", async (req, res) => {
     const nDate = new Date().toLocaleString("en-US", {
       timezone: timezone.timezone,
     });
-    res.status(200).json({ status: true, message: "Suucessful!", data: nDate });
+
+    res.status(200).json({
+      status: true,
+      message: "Suucessful!",
+      data: nDate,
+    });
   }
 });
 

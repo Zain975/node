@@ -1,6 +1,7 @@
 const constants = require("./constants");
 
 function handleSocketEvents(socket, robot) {
+  // for mouse move
   socket.on(constants.MOUSE_MOVE, ({ x, y, scroll }) => {
     if (!scroll) {
       const { x: X, y: Y } = robot.getMousePos();
@@ -10,10 +11,17 @@ function handleSocketEvents(socket, robot) {
       robot.scrollMouse(0, y);
     }
   });
-
+  // mouse click
   socket.on(constants.MOUSE_CLICK, ({ button, double }) => {
     console.log("click", button);
     robot.mouseClick(button, double);
+  });
+
+  // key toggle
+  socket.on(constants.KEY_TOGGLE, ({ key, pressed }) => {
+    const state = pressedToState[!!pressed];
+    if (key === "meta") key = "command";
+    robot.keyToggle(key, state);
   });
 }
 
