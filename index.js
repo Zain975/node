@@ -13,6 +13,7 @@ const audioRoute = require("./routes/audio");
 const videoRoute = require("./routes/video");
 const weatherRoute = require("./routes/weather");
 const timezoneRoute = require("./routes/timezone");
+const frontBgRoute = require("./routes/frontBg");
 
 dotenv.config();
 const port = process.env.PORT || 8000;
@@ -126,6 +127,7 @@ app.use("/api/uploads", audioRoute);
 app.use("/api/uploads", videoRoute);
 app.use("/api/weather", weatherRoute);
 app.use("/api/timezone", timezoneRoute);
+app.use("/api/setBackground", frontBgRoute);
 
 app.listen(port, () => {
   console.log("server is running");
