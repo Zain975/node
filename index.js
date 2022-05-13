@@ -13,7 +13,7 @@ const audioRoute = require("./routes/audio");
 const videoRoute = require("./routes/video");
 const weatherRoute = require("./routes/weather");
 const timezoneRoute = require("./routes/timezone");
-const backgroundImgRoute = require("./routes/backgroundImg");
+const backgroundImgRoute = require("./routes/frontBg");
 
 dotenv.config();
 const port = process.env.PORT || 8000;
