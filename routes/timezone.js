@@ -34,7 +34,7 @@ router.post("/timezone", async (req, res, err) => {
 // Update Timezone
 
 router.put("/updateTimezone", async (req, res) => {
-  const timezoneId = "6254f31e9e582738652ae484";
+  const timezoneId = "6255ae485cf0cc88db8d8c40";
   const timezone = await Timezone.findByIdAndUpdate(timezoneId);
   if (timezone) {
     timezone.timezone = req.body.timezone;
@@ -48,7 +48,7 @@ router.put("/updateTimezone", async (req, res) => {
 // get Timezone
 
 router.get("/time", async (req, res) => {
-  const timezoneId = "6254f31e9e582738652ae484";
+  const timezoneId = "6255ae485cf0cc88db8d8c40";
   const timezone = await Timezone.findById(timezoneId);
   if (!timezone.timezone) {
     res.status(404).json("Timezone is missing");
