@@ -160,6 +160,22 @@ router.put("/updateHomeBg", upload.single("bg"), async (req, res) => {
   }
 });
 
+// Update bg of myLife
+
+router.put("/updateMyLifeBg", upload.single("bg"), async (req, res) => {
+  const myLifeBgId = "6281f230fd21aa9d9e3cd1a1";
+  const myLifeBg = await BackgroundImg.findByIdAndUpdate(myLifeBgId);
+  if (myLifeBg) {
+    myLifeBg.imgUrl = req.file.location;
+    const updatedMyLifeBg = await myLifeBg.save();
+    res.status(200).json({
+      status: true,
+      message: "Succesfully updated!",
+      data: updatedMyLifeBg,
+    });
+  }
+});
+
 //Get bg of front
 
 router.get("/getFrontBg", async (req, res) => {
@@ -239,6 +255,18 @@ router.get("/getHomeBg", async (req, res) => {
     const homeBgId = "627ca9b25b495563fc92bce1";
     const homeBg = await BackgroundImg.findById(homeBgId);
     res.status(200).json(homeBg);
+  } catch (err) {
+    res.status(200).json({ status: false, message: err });
+  }
+});
+
+//Get fbg of myLife
+
+router.get("/getMyLifeBg", async (req, res) => {
+  try {
+    const myLifeBgId = "6281f230fd21aa9d9e3cd1a1";
+    const myLifeBg = await BackgroundImg.findById(myLifeBgId);
+    res.status(200).json(myLifeBg);
   } catch (err) {
     res.status(200).json({ status: false, message: err });
   }
