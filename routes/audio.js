@@ -36,6 +36,19 @@ const upload = multer({
   }),
 });
 
+const deleteFromAWS = function (key) {
+  s3.deleteObject(
+    {
+      Bucket: "mp3-file-upload",
+      Key: `${key}`,
+    },
+    (err, data) => {
+      console.log(err);
+      console.log(data);
+    }
+  );
+};
+
 // s3.deleteObject(
 //   {
 //     Bucket: "mp3-file-upload",
@@ -46,10 +59,6 @@ const upload = multer({
 //     console.log(data);
 //   }
 // );
-// s3.deleteObject({
-//   bucket: "mp3-file-upload",
-//   // key: req.body.key,
-// });
 
 //Uploading single File to aws s3 bucket
 router.post("/audio", upload.single("audio"), async (req, res, err) => {
@@ -127,8 +136,7 @@ router.get("/searchAudio", (req, res, next) => {
 
 router.delete("/deleteAudio/:id", async (req, res) => {
   try {
-    await Audio.findByIdAndDelete(req.params.id);
-
+    const audio = await Audio.findByIdAndDelete(req.params.id);
     res
       .status(200)
       .json({ status: true, message: "The audio has been deleted..." });
