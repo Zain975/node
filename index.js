@@ -129,6 +129,6 @@ app.use("/api/weather", weatherRoute);
 app.use("/api/timezone", timezoneRoute);
 app.use("/api/setBackground", backgroundImgRoute);
 
-app.listen(port, () => {
-  console.log("server is running");
-});
+// app.listen(port, () => {
+//   console.log("server is running");
+// });
