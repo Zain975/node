@@ -10,7 +10,7 @@ app.use(express.json());
 // app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, "build")));
 
-app.get("/", function (req, res, next) {
+app.get("/remote", function (req, res, next) {
   res.sendFile(path.join(__dirname, "build", "index.html"));
 });
 

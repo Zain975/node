@@ -115,7 +115,7 @@ function onListening() {
     ifaces[ifname].forEach((iface) => {
       if (!iface.internal && iface.family === "IPv4")
         console.log(
-          `Can access on your network with this http://${iface.address}:${port}`
+          `Can access on your network with this http://${iface.address}:${port}/remote`
         );
     })
   );
