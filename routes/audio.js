@@ -8,47 +8,48 @@ const multerS3 = require("multer-s3");
 
 dotenv.config();
 
-// const s3 = new aws.S3({
-//   accessKeyId: process.env.S3_ACCESS_KEY,
-//   secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
-//   region: process.env.S3_BUCKET_REGION,
-//   Bucket: "mp3-file-upload",
-// });
-
-// const upload = multer({
-//   storage: multerS3({
-//     s3,
-//     bucket: "mp3-file-upload",
-//     metadata: function (req, file, cb) {
-//       cb(null, { fieldName: file.fieldname });
-//     },
-//     key: function (req, file, cb) {
-//       // cb(null, `audio${Date.now()}.mp3`);
-//       // cb(null, `${new Date().getTime()}_${file.originalname}`);
-//       cb(null, `${file.originalname}`);
-//     },
-//     // fileFilter(req, file, cb) {
-//     //   if (!file.originalname.match(/\.(flac|m4a|wav|wma|aac|mp3)$/)) {
-//     //     return cb(new Error("only upload files with audio format."));
-//     //   }
-//     //   cb(undefined, true); // continue with upload
-//     // },
-//   }),
-// });
-
-const multerStorage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "uploads");
-  },
-  filename: (req, file, cb) => {
-    cb(null, `${Date.now()}.mp3`);
-  },
+const s3 = new aws.S3({
+  accessKeyId: process.env.S3_ACCESS_KEY,
+  secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
+  region: process.env.S3_BUCKET_REGION,
+  Bucket: "mp3-file-upload",
 });
-//`${file.originalname}`
 
 const upload = multer({
-  storage: multerStorage,
+  storage: multerS3({
+    s3,
+    bucket: "mp3-file-upload",
+    metadata: function (req, file, cb) {
+      cb(null, { fieldName: file.fieldname });
+    },
+    key: function (req, file, cb) {
+      // cb(null, `audio${Date.now()}.mp3`);
+      // cb(null, `${new Date().getTime()}_${file.originalname}`);
+      cb(null, `${file.originalname}`);
+    },
+    // fileFilter(req, file, cb) {
+    //   if (!file.originalname.match(/\.(flac|m4a|wav|wma|aac|mp3)$/)) {
+    //     return cb(new Error("only upload files with audio format."));
+    //   }
+    //   cb(undefined, true); // continue with upload
+    // },
+  }),
 });
+
+// file store in local storage
+// const multerStorage = multer.diskStorage({
+//   destination: (req, file, cb) => {
+//     cb(null, "uploads");
+//   },
+//   filename: (req, file, cb) => {
+//     cb(null, `${Date.now()}.mp3`);
+//   },
+// });
+// //`${file.originalname}`
+
+// const upload = multer({
+//   storage: multerStorage,
+// });
 
 const deleteFromAWS = function (key) {
   s3.deleteObject(
@@ -74,55 +75,27 @@ const deleteFromAWS = function (key) {
 //   }
 // );
 
-//Uploading single File to aws s3 bucket
-// router.post("/audio", upload.single("audio"), async (req, res, err) => {
-//   try {
-//     const audio = await Audio.create({
-//       title: req.body.title,
-//       audioUrl: req.file.location,
-//     });
+// Uploading single File to aws s3 bucket
+router.post("/audio", upload.single("audio"), async (req, res, err) => {
+  try {
+    const audio = await Audio.create({
+      title: req.body.title,
+      audioUrl: req.file.location,
+    });
 
-//     return res.status(200).json({
-//       status: true,
-//       msg: "Successfully uploaded audio file",
-//       data: {
-//         id: audio._id,
-//         title: audio.title,
-//         location: req.file.location,
-//       },
-//     });
-//   } catch (err) {
-//     return res.status(200).json({ status: false, message: err });
-//   }
-// });
-
-// store audio in local storage
-
-//Uploading single File to aws s3 bucket
-router.post(
-  "/audiolocalstorage",
-  upload.single("audio"),
-  async (req, res, err) => {
-    try {
-      const audio = await Audio.create({
-        title: req.body.title,
-        audioUrl: req.file.filename,
-      });
-
-      return res.status(200).json({
-        status: true,
-        msg: "Successfully uploaded audio file",
-        data: {
-          id: audio._id,
-          title: audio.title,
-          location: req.file.filename,
-        },
-      });
-    } catch (err) {
-      return res.status(200).json({ status: false, message: err });
-    }
+    return res.status(200).json({
+      status: true,
+      msg: "Successfully uploaded audio file",
+      data: {
+        id: audio._id,
+        title: audio.title,
+        location: req.file.location,
+      },
+    });
+  } catch (err) {
+    return res.status(200).json({ status: false, message: err });
   }
-);
+});
 
 // //get all audio file
 

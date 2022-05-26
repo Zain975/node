@@ -31,10 +31,13 @@ app.use((req, res, next) => {
     res.setHeader("Access-Control-Allow-Headers", "*");
   next();
 });
+
+// set directory for files
 // const __dirname = path.resolve();
 
-app.set("/uploads", express.static(path.join(__dirname, "/uploads")));
-app.set(express.static(path.join(__dirname, "/frontend/build")));
+// app.set("/uploads", express.static(path.join(__dirname, "/uploads")));
+// app.use(express.static(__dirname + "/uploads"));
+
 /**
  * Get port from environment and store in Express.
  */
