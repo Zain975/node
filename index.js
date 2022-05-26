@@ -27,7 +27,7 @@ mongoose.connect(connection_url || process.env.MONGO_URL, {
 app.use(express.json());
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*"),
-    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader("Access-Control-Allow-Headers", "*");
   next();
 });
 
@@ -129,6 +129,6 @@ app.use("/api/weather", weatherRoute);
 app.use("/api/timezone", timezoneRoute);
 app.use("/api/setBackground", backgroundImgRoute);
 
-// app.listen(port, () => {
-//   console.log("server is running");
-// });
+app.listen(port, () => {
+  console.log("server is running");
+});
