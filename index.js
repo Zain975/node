@@ -25,18 +25,16 @@ mongoose.connect(connection_url || process.env.MONGO_URL, {
   useUnifiedTopology: true,
 });
 
-const __dirname = path.resolve();
-
-app.use("/uploads", express.static(path.join(__dirname, "/uploads")));
-app.use(express.static(path.join(__dirname, "/frontend/build")));
-
 app.use(express.json());
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*"),
     res.setHeader("Access-Control-Allow-Headers", "*");
   next();
 });
+// const __dirname = path.resolve();
 
+app.set("/uploads", express.static(path.join(__dirname, "/uploads")));
+app.set(express.static(path.join(__dirname, "/frontend/build")));
 /**
  * Get port from environment and store in Express.
  */
