@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
+const path = require("path");
 // var mapp = require("./mapp");
 // var http = require("http");
 // var robot = require("robotjs");
@@ -23,6 +24,11 @@ mongoose.connect(connection_url || process.env.MONGO_URL, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
+
+const __dirname = path.resolve();
+
+app.use("/uploads", express.static(path.join(__dirname, "/uploads")));
+app.use(express.static(path.join(__dirname, "/frontend/build")));
 
 app.use(express.json());
 app.use((req, res, next) => {
