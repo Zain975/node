@@ -53,7 +53,7 @@ router.get("/time", async (req, res) => {
   if (!timezone.timezone) {
     res.status(404).json("Timezone is missing");
   } else {
-    const nDate = new Date().toLocaleString("en-US", {
+    const nDate = new Date().toLocaleString("en-NZ", {
       timezone: timezone.timezone,
     });
     // const t = setInterval(toLocaleString(), 1000);
