@@ -54,7 +54,8 @@ router.get("/time", async (req, res) => {
     res.status(404).json("Timezone is missing");
   } else {
     const nDate = new Date().toLocaleString("en-NZ", {
-      timezone: timezone.timezone,
+      timeZone: timezone.timezone,
+      // timeZone: "Asia/Dhaka",
     });
     // const t = setInterval(toLocaleString(), 1000);
 
