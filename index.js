@@ -3,12 +3,11 @@ const app = express();
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 // const path = require("path");
-var mapp = require("./mapp");
-var http = require("http");
+// var mapp = require("./mapp");
+// var http = require("http");
 // var robot = require("robotjs");
-var robot = require("robotjs");
-var os = require("os");
-var handleSocketEvents = require("./socket");
+// var os = require("os");
+// var handleSocketEvents = require("./socket");
 
 const authRoute = require("./routes/auth");
 const audioRoute = require("./routes/audio");
@@ -44,90 +43,91 @@ app.use((req, res, next) => {
  */
 
 //  var port = normalizePort(process.env.PORT || '4000');
-mapp.set("port", port);
 
-/**
- * Create HTTP server.
- */
+// mapp.set("port", port);
 
-var server = http.createServer(mapp);
+// /**
+//  * Create HTTP server.
+//  */
 
-/**
- * Listen on provided port, on all network interfaces.
- */
+// var server = http.createServer(mapp);
 
-server.listen(port, "0.0.0.0");
-server.on("error", onError);
-server.on("listening", onListening);
+// /**
+//  * Listen on provided port, on all network interfaces.
+//  */
 
-var io = require("socket.io")(server);
+// server.listen(port, "0.0.0.0");
+// server.on("error", onError);
+// server.on("listening", onListening);
 
-io.on("connection", (socket) => {
-  handleSocketEvents(socket, robot);
-  console.log("someon connected");
-});
+// var io = require("socket.io")(server);
 
-const ifaces = os.networkInterfaces();
-/**
- * Normalize a port into a number, string, or false.
- */
+// io.on("connection", (socket) => {
+//   handleSocketEvents(socket, robot);
+//   console.log("someon connected");
+// });
 
-function normalizePort(val) {
-  var port = parseInt(val, 10);
+// const ifaces = os.networkInterfaces();
+// /**
+//  * Normalize a port into a number, string, or false.
+//  */
 
-  if (isNaN(port)) {
-    // named pipe
-    return val;
-  }
+// function normalizePort(val) {
+//   var port = parseInt(val, 10);
 
-  if (port >= 0) {
-    // port number
-    return port;
-  }
+//   if (isNaN(port)) {
+//     // named pipe
+//     return val;
+//   }
 
-  return false;
-}
+//   if (port >= 0) {
+//     // port number
+//     return port;
+//   }
 
-/**
- * Event listener for HTTP server "error" event.
- */
+//   return false;
+// }
 
-function onError(error) {
-  if (error.syscall !== "listen") {
-    throw error;
-  }
+// /**
+//  * Event listener for HTTP server "error" event.
+//  */
 
-  var bind = typeof port === "string" ? "Pipe " + port : "Port " + port;
+// function onError(error) {
+//   if (error.syscall !== "listen") {
+//     throw error;
+//   }
 
-  // handle specific listen errors with friendly messages
-  switch (error.code) {
-    case "EACCES":
-      console.error(bind + " requires elevated privileges");
-      process.exit(1);
-      break;
-    case "EADDRINUSE":
-      console.error(bind + " is already in use");
-      process.exit(1);
-      break;
-    default:
-      throw error;
-  }
-}
+//   var bind = typeof port === "string" ? "Pipe " + port : "Port " + port;
 
-/**
- * Event listener for HTTP server "listening" event.
- */
+//   // handle specific listen errors with friendly messages
+//   switch (error.code) {
+//     case "EACCES":
+//       console.error(bind + " requires elevated privileges");
+//       process.exit(1);
+//       break;
+//     case "EADDRINUSE":
+//       console.error(bind + " is already in use");
+//       process.exit(1);
+//       break;
+//     default:
+//       throw error;
+//   }
+// }
 
-function onListening() {
-  Object.keys(ifaces).forEach((ifname) =>
-    ifaces[ifname].forEach((iface) => {
-      if (!iface.internal && iface.family === "IPv4")
-        console.log(
-          `Can access on your network with this http://${iface.address}:${port}/remote`
-        );
-    })
-  );
-}
+// /**
+//  * Event listener for HTTP server "listening" event.
+//  */
+
+// function onListening() {
+//   Object.keys(ifaces).forEach((ifname) =>
+//     ifaces[ifname].forEach((iface) => {
+//       if (!iface.internal && iface.family === "IPv4")
+//         console.log(
+//           `Can access on your network with this http://${iface.address}:${port}/remote`
+//         );
+//     })
+//   );
+// }
 
 // app.get("/", (req, res) => res.status(200).send("hello world"));
 app.use("/api/auth", authRoute);
