@@ -4,12 +4,12 @@ const Timezone = require("../models/Timezone");
 
 // Timezones List
 router.get("/timezonesList", async (req, res) => {
-  const timezoneId = "6254f31e9e582738652ae484";
-  const timezone = await Timezone.findById(timezoneId);
+  // const timezoneId = "6254f31e9e582738652ae484";
+  // const timezone = await Timezone.findById(timezoneId);
   fs.readFile("timezone.json", "utf-8", function (err, data) {
     res.status(200).json({
       status: true,
-      timezone: timezone.timezone,
+      // timezone: timezone.timezone,
       list: JSON.parse(data),
     });
   });
