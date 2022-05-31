@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
+const Cors = require("cors");
 // const path = require("path");
 // var mapp = require("./mapp");
 // var http = require("http");
@@ -26,6 +27,7 @@ mongoose.connect(connection_url || process.env.MONGO_URL, {
 });
 
 app.use(express.json());
+app.use(Cors());
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*"),
     res.setHeader("Access-Control-Allow-Headers", "*");
